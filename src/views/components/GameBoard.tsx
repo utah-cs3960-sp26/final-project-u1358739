@@ -505,7 +505,7 @@ function renderAnimatedEdge(
   return (
     <G key={`removal-edge-${from.id}-${to.id}`} opacity={1 - progress * 0.5}>
       <Line
-        stroke={palette.secondary}
+        stroke={palette.edge}
         strokeLinecap="round"
         strokeWidth={4}
         x1={baseVector.lineStart.x}
@@ -513,7 +513,7 @@ function renderAnimatedEdge(
         y1={baseVector.lineStart.y}
         y2={animatedEnd.y}
       />
-      <Polygon fill={palette.secondary} points={animatedVector.arrowPoints} />
+      <Polygon fill={palette.edge} points={animatedVector.arrowPoints} />
     </G>
   );
 }
