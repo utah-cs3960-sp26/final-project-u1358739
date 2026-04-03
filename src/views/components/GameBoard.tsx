@@ -492,15 +492,10 @@ function renderAnimatedEdge(
   progress: number,
 ) {
   const baseVector = edgeVector(fromPoint, toPoint, nodeRadius);
-  const animatedEnd = {
-    x: lerp(baseVector.lineEnd.x, baseVector.lineStart.x, progress),
-    y: lerp(baseVector.lineEnd.y, baseVector.lineStart.y, progress),
+  const animatedStart = {
+    x: lerp(baseVector.lineStart.x, baseVector.lineEnd.x, progress),
+    y: lerp(baseVector.lineStart.y, baseVector.lineEnd.y, progress),
   };
-  const tip = {
-    x: lerp(toBoardPoint(to, gridHeight, gridUnit).x, baseVector.lineStart.x, progress),
-    y: lerp(toBoardPoint(to, gridHeight, gridUnit).y, baseVector.lineStart.y, progress),
-  };
-  const animatedVector = edgeVector(fromPoint, tip, Math.max(nodeRadius * (1 - progress), 2));
 
   return (
     <G key={`removal-edge-${from.id}-${to.id}`} opacity={1 - progress * 0.5}>
@@ -508,12 +503,12 @@ function renderAnimatedEdge(
         stroke={palette.edge}
         strokeLinecap="round"
         strokeWidth={4}
-        x1={baseVector.lineStart.x}
-        x2={animatedEnd.x}
-        y1={baseVector.lineStart.y}
-        y2={animatedEnd.y}
+        x1={animatedStart.x}
+        x2={baseVector.lineEnd.x}
+        y1={animatedStart.y}
+        y2={baseVector.lineEnd.y}
       />
-      <Polygon fill={palette.edge} points={animatedVector.arrowPoints} />
+      <Polygon fill={palette.edge} points={baseVector.arrowPoints} />
     </G>
   );
 }
