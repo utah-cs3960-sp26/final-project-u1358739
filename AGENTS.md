@@ -1,0 +1,1 @@
+First look at the AppSpecification.md file to see what this project is.  Most of this is already implemented.
