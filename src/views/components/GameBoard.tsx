@@ -366,9 +366,7 @@ export function GameBoard({
                 width: nodeRadius * 2,
               },
             ]}
-          >
-            <Text style={styles.nodeId}>{removalEvent.source.id}</Text>
-          </View>
+          />
         ) : null}
       </View>
     </View>
@@ -434,10 +432,7 @@ function NodeToken({
           isReady ? styles.nodeReady : styles.nodeBlocked,
           pressed && !isInteractionLocked ? styles.nodePressed : null,
         ]}
-      >
-        <Text style={styles.nodeId}>{node.id}</Text>
-        <Text style={styles.nodeDegree}>in {node.inDegree}</Text>
-      </Pressable>
+      />
     </Animated.View>
   );
 }
