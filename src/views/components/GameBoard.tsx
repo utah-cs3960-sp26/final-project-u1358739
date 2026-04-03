@@ -583,7 +583,7 @@ const styles = StyleSheet.create({
   },
   nodeBlocked: {
     backgroundColor: palette.nodeBackground,
-    borderColor: palette.border,
+    borderColor: '#000000',
   },
   nodeDegree: {
     color: palette.mutedText,
@@ -601,7 +601,7 @@ const styles = StyleSheet.create({
   },
   nodeReady: {
     backgroundColor: palette.nodeBackground,
-    borderColor: palette.nodeBorder,
+    borderColor: '#000000',
   },
   nodeWrapper: {
     position: 'absolute',
