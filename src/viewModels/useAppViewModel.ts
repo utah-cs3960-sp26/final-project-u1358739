@@ -51,6 +51,7 @@ export type AppViewModel = {
   openGameScreen: () => void;
   playButtonLabel: string;
   playerStats: PlayerStats;
+  playerProgress: PlayerProgress;
   gameScreen: GameScreenState | null;
 };
 
@@ -236,6 +237,7 @@ export function useAppViewModel(): AppViewModel {
     homeHeadline,
     openGameScreen,
     playButtonLabel: isCampaignComplete ? 'Replay Final Level' : 'Play',
+    playerProgress,
     playerStats,
   };
 }
