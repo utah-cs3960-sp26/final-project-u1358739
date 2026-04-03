@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { AppViewModel } from '../../viewModels/useAppViewModel';
 import { GameBoard } from '../components/GameBoard';
-import { spacing } from '../theme';
+import { palette, spacing } from '../theme';
 
 const DEFAULT_LIVES = 2;
 
@@ -75,7 +75,7 @@ export function GameScreen({ viewModel }: GameScreenProps) {
 
 const styles = StyleSheet.create({
   safeArea: {
-    backgroundColor: '#ffffff',
+    backgroundColor: palette.boardBackground,
     flex: 1,
   },
   topBar: {
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   },
   circleButton: {
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: palette.surfaceAlt,
     borderRadius: 999,
     height: 36,
     justifyContent: 'center',
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   circleButtonText: {
+    color: palette.text,
     fontSize: 18,
   },
 });

@@ -453,7 +453,7 @@ function renderGrid(level: Level, gridUnit: number) {
         <SvgCircle
           cx={point.x}
           cy={point.y}
-          fill={palette.border}
+          fill={palette.gridDot}
           key={`dot-${x}-${y}`}
           opacity={0.75}
           r={3.5}
@@ -473,7 +473,7 @@ function renderEdge(from: Node, to: Node, gridHeight: number, gridUnit: number, 
   return (
     <G key={`edge-${from.id}-${to.id}`}>
       <Line
-        stroke="#000000"
+        stroke={palette.edge}
         strokeLinecap="round"
         strokeWidth={4}
         x1={vector.lineStart.x}
@@ -481,7 +481,7 @@ function renderEdge(from: Node, to: Node, gridHeight: number, gridUnit: number, 
         y1={vector.lineStart.y}
         y2={vector.lineEnd.y}
       />
-      <Polygon fill="#000000" points={vector.arrowPoints} />
+      <Polygon fill={palette.edge} points={vector.arrowPoints} />
     </G>
   );
 }
@@ -571,7 +571,7 @@ function lerp(start: number, end: number, progress: number) {
 
 const styles = StyleSheet.create({
   board: {
-    backgroundColor: '#ffffff',
+    backgroundColor: palette.boardBackground,
   },
   node: {
     alignItems: 'center',
@@ -582,11 +582,11 @@ const styles = StyleSheet.create({
     padding: spacing.sm,
   },
   nodeBlocked: {
-    backgroundColor: '#ffffff',
-    borderColor: '#000000',
+    backgroundColor: palette.nodeBackground,
+    borderColor: palette.border,
   },
   nodeDegree: {
-    color: palette.text,
+    color: palette.mutedText,
     fontSize: 12,
     fontWeight: '600',
     letterSpacing: 0.3,
@@ -600,15 +600,15 @@ const styles = StyleSheet.create({
     opacity: 0.82,
   },
   nodeReady: {
-    backgroundColor: '#ffffff',
-    borderColor: '#000000',
+    backgroundColor: palette.nodeBackground,
+    borderColor: palette.nodeBorder,
   },
   nodeWrapper: {
     position: 'absolute',
   },
   removalGhost: {
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+    backgroundColor: palette.nodeBackground,
     borderColor: palette.secondary,
     borderRadius: 999,
     borderWidth: 3,
@@ -616,7 +616,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   viewportFrame: {
-    backgroundColor: '#ffffff',
+    backgroundColor: palette.boardBackground,
     flex: 1,
     minHeight: 360,
     overflow: 'hidden',
