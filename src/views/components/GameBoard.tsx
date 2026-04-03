@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef, useState, type ReactElement } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactElement } from 'react';
 import {
   Animated,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -18,6 +19,7 @@ import { palette, spacing, typography } from '../theme';
 type GameBoardProps = {
   level: Level;
   zoom: number;
+  setZoom: (newZoom: number) => void;
   showGrid: boolean;
   blockedNodeId: number | null;
   blockedEventToken: number;
@@ -26,11 +28,23 @@ type GameBoardProps = {
   onNodePress: (nodeId: number) => void;
 };
 
+const MIN_ZOOM = 0.25;
+const MAX_ZOOM = 1.55;
+
 const BASE_GRID_UNIT = 54;
+
+function getTouchDistance(touches: React.TouchList) {
+  const t0 = touches[0];
+  const t1 = touches[1];
+  const dx = t0.pageX - t1.pageX;
+  const dy = t0.pageY - t1.pageY;
+  return Math.hypot(dx, dy);
+}
 
 export function GameBoard({
   level,
   zoom,
+  setZoom,
   showGrid,
   blockedNodeId,
   blockedEventToken,
@@ -45,6 +59,59 @@ export function GameBoard({
   const [frameSize, setFrameSize] = useState({ height: 0, width: 0 });
   const [removalProgress, setRemovalProgress] = useState(1);
   const removalAnimationValue = useRef(new Animated.Value(1)).current;
+
+  const pinchRef = useRef<{ startDistance: number; startZoom: number } | null>(null);
+  const viewportRef = useRef<View>(null);
+
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        const delta = -e.deltaY * 0.001;
+        setZoom(Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoom + delta)));
+      }
+    },
+    [zoom, setZoom],
+  );
+
+  useEffect(() => {
+    if (Platform.OS !== 'web') return;
+    const node = viewportRef.current as unknown as HTMLElement | null;
+    if (!node) return;
+    node.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      node.removeEventListener('wheel', handleWheel);
+    };
+  }, [handleWheel]);
+
+  const onTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      const nativeEvent = e.nativeEvent as unknown as TouchEvent;
+      if (nativeEvent.touches.length === 2) {
+        pinchRef.current = {
+          startDistance: getTouchDistance(nativeEvent.touches as unknown as React.TouchList),
+          startZoom: zoom,
+        };
+      }
+    },
+    [zoom],
+  );
+
+  const onTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      const nativeEvent = e.nativeEvent as unknown as TouchEvent;
+      if (nativeEvent.touches.length === 2 && pinchRef.current) {
+        const currentDistance = getTouchDistance(nativeEvent.touches as unknown as React.TouchList);
+        const scale = currentDistance / pinchRef.current.startDistance;
+        setZoom(Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, pinchRef.current.startZoom * scale)));
+      }
+    },
+    [setZoom],
+  );
+
+  const onTouchEnd = useCallback(() => {
+    pinchRef.current = null;
+  }, []);
 
   const gridUnit = BASE_GRID_UNIT * zoom;
   const nodeRadius = gridUnit;
@@ -117,6 +184,7 @@ export function GameBoard({
 
   return (
     <View
+      ref={viewportRef}
       onLayout={(event) => {
         const { height, width } = event.nativeEvent.layout;
 
@@ -126,6 +194,9 @@ export function GameBoard({
             : { height, width },
         );
       }}
+      onTouchStart={onTouchStart as unknown as View['props']['onTouchStart']}
+      onTouchMove={onTouchMove as unknown as View['props']['onTouchMove']}
+      onTouchEnd={onTouchEnd as unknown as View['props']['onTouchEnd']}
       style={styles.viewportFrame}
     >
       <ScrollView
@@ -305,7 +376,7 @@ function renderEdge(from: Node, to: Node, gridHeight: number, gridUnit: number, 
   return (
     <G key={`edge-${from.id}-${to.id}`}>
       <Line
-        stroke={palette.primary}
+        stroke="#000000"
         strokeLinecap="round"
         strokeWidth={4}
         x1={vector.lineStart.x}
@@ -313,7 +384,7 @@ function renderEdge(from: Node, to: Node, gridHeight: number, gridUnit: number, 
         y1={vector.lineStart.y}
         y2={vector.lineEnd.y}
       />
-      <Polygon fill={palette.primary} points={vector.arrowPoints} />
+      <Polygon fill="#000000" points={vector.arrowPoints} />
     </G>
   );
 }
@@ -422,7 +493,7 @@ const styles = StyleSheet.create({
   },
   nodeBlocked: {
     backgroundColor: '#f5ddd0',
-    borderColor: palette.danger,
+    borderColor: '#000000',
   },
   nodeDegree: {
     color: palette.text,
@@ -440,7 +511,7 @@ const styles = StyleSheet.create({
   },
   nodeReady: {
     backgroundColor: '#cde8d7',
-    borderColor: palette.primary,
+    borderColor: '#000000',
   },
   nodeWrapper: {
     position: 'absolute',

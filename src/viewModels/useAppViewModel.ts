@@ -40,8 +40,7 @@ type GameScreenState = {
   showGrid: boolean;
   toggleGrid: () => void;
   zoom: number;
-  zoomIn: () => void;
-  zoomOut: () => void;
+  setZoom: (newZoom: number) => void;
   handleNodePress: (nodeId: number) => void;
 };
 
@@ -56,9 +55,8 @@ export type AppViewModel = {
 };
 
 const DEFAULT_LIVES = 2;
-const MIN_ZOOM = 0.75;
+const MIN_ZOOM = 0.25;
 const MAX_ZOOM = 1.55;
-const ZOOM_STEP = 0.15;
 
 export function useAppViewModel(): AppViewModel {
   const completionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -68,7 +66,7 @@ export function useAppViewModel(): AppViewModel {
   const [activeLevel, setActiveLevel] = useState<Level | null>(null);
   const [livesRemaining, setLivesRemaining] = useState(DEFAULT_LIVES);
   const [showGrid, setShowGrid] = useState(false);
-  const [zoom, setZoom] = useState(1);
+  const [zoom, setZoom] = useState(0.5);
   const [blockedNodeId, setBlockedNodeId] = useState<number | null>(null);
   const [blockedEventToken, setBlockedEventToken] = useState(0);
   const [removalEvent, setRemovalEvent] = useState<RemovalAnimationSnapshot | null>(null);
@@ -110,7 +108,7 @@ export function useAppViewModel(): AppViewModel {
       setActiveLevel(Level.fromDefinition(definition));
       setLivesRemaining(DEFAULT_LIVES);
       setShowGrid(false);
-      setZoom(1);
+      setZoom(0.5);
       setCurrentScreen('game');
       persistProgress((previousProgress) => ({
         ...previousProgress,
@@ -225,11 +223,8 @@ export function useAppViewModel(): AppViewModel {
           setShowGrid((previousValue) => !previousValue);
         },
         zoom,
-        zoomIn: () => {
-          setZoom((previousValue) => Math.min(MAX_ZOOM, Number((previousValue + ZOOM_STEP).toFixed(2))));
-        },
-        zoomOut: () => {
-          setZoom((previousValue) => Math.max(MIN_ZOOM, Number((previousValue - ZOOM_STEP).toFixed(2))));
+        setZoom: (newZoom: number) => {
+          setZoom(Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, newZoom)));
         },
       }
     : null;
