@@ -582,7 +582,7 @@ const styles = StyleSheet.create({
     padding: spacing.sm,
   },
   nodeBlocked: {
-    backgroundColor: '#f5ddd0',
+    backgroundColor: '#ffffff',
     borderColor: '#000000',
   },
   nodeDegree: {
@@ -600,7 +600,7 @@ const styles = StyleSheet.create({
     opacity: 0.82,
   },
   nodeReady: {
-    backgroundColor: '#cde8d7',
+    backgroundColor: '#ffffff',
     borderColor: '#000000',
   },
   nodeWrapper: {
@@ -608,7 +608,7 @@ const styles = StyleSheet.create({
   },
   removalGhost: {
     alignItems: 'center',
-    backgroundColor: '#efe6d8',
+    backgroundColor: '#ffffff',
     borderColor: palette.secondary,
     borderRadius: 999,
     borderWidth: 3,
