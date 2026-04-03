@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { AppViewModel } from '../../viewModels/useAppViewModel';
@@ -12,6 +12,8 @@ type HomeScreenProps = {
 
 export function HomeScreen({ viewModel }: HomeScreenProps) {
   const [showDebug, setShowDebug] = useState(false);
+  const [editingKey, setEditingKey] = useState<string | null>(null);
+  const [editValue, setEditValue] = useState('');
 
   return (
     <SafeAreaView edges={['top', 'bottom', 'left', 'right']} style={styles.safeArea}>
@@ -40,12 +42,50 @@ export function HomeScreen({ viewModel }: HomeScreenProps) {
             <View style={styles.modalContent}>
               <Text style={styles.modalTitle}>Database Contents</Text>
               <ScrollView style={styles.modalScroll}>
-                {Object.entries(viewModel.playerProgress).map(([key, value]) => (
-                  <View key={key} style={styles.modalRow}>
-                    <Text style={styles.modalKey}>{key}</Text>
-                    <Text style={styles.modalValue}>{String(value)}</Text>
-                  </View>
-                ))}
+                {Object.entries(viewModel.playerProgress).map(([key, value]) => {
+                  const isEditable = key === 'currentLevelNumber';
+                  const isEditing = editingKey === key;
+
+                  return (
+                    <Pressable
+                      key={key}
+                      onPress={() => {
+                        if (isEditable && !isEditing) {
+                          setEditingKey(key);
+                          setEditValue(String(value));
+                        }
+                      }}
+                      style={styles.modalRow}
+                    >
+                      <Text style={styles.modalKey}>{key}</Text>
+                      {isEditing ? (
+                        <TextInput
+                          autoFocus
+                          keyboardType="number-pad"
+                          onBlur={() => {
+                            const parsed = parseInt(editValue, 10);
+                            if (!isNaN(parsed)) {
+                              viewModel.updatePlayerProgress({ currentLevelNumber: parsed });
+                            }
+                            setEditingKey(null);
+                          }}
+                          onChangeText={setEditValue}
+                          onSubmitEditing={() => {
+                            const parsed = parseInt(editValue, 10);
+                            if (!isNaN(parsed)) {
+                              viewModel.updatePlayerProgress({ currentLevelNumber: parsed });
+                            }
+                            setEditingKey(null);
+                          }}
+                          style={styles.modalInput}
+                          value={editValue}
+                        />
+                      ) : (
+                        <Text style={styles.modalValue}>{String(value)}</Text>
+                      )}
+                    </Pressable>
+                  );
+                })}
               </ScrollView>
               <Pressable
                 onPress={() => setShowDebug(false)}
@@ -145,6 +185,19 @@ const styles = StyleSheet.create({
     color: palette.text,
     fontSize: typography.bodySize,
     fontWeight: '700',
+  },
+  modalInput: {
+    backgroundColor: palette.surface,
+    borderColor: palette.primary,
+    borderRadius: 6,
+    borderWidth: 1,
+    color: palette.text,
+    fontSize: typography.bodySize,
+    fontWeight: '700',
+    minWidth: 60,
+    paddingHorizontal: spacing.xs,
+    paddingVertical: 2,
+    textAlign: 'right',
   },
   modalCloseButton: {
     alignItems: 'center',

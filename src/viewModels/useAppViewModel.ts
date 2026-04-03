@@ -52,6 +52,7 @@ export type AppViewModel = {
   playButtonLabel: string;
   playerStats: PlayerStats;
   playerProgress: PlayerProgress;
+  updatePlayerProgress: (updates: Partial<PlayerProgress>) => void;
   gameScreen: GameScreenState | null;
 };
 
@@ -88,6 +89,13 @@ export function useAppViewModel(): AppViewModel {
       return nextProgress;
     });
   }, []);
+
+  const updatePlayerProgress = useCallback(
+    (updates: Partial<PlayerProgress>) => {
+      persistProgress((previous) => ({ ...previous, ...updates }));
+    },
+    [persistProgress],
+  );
 
   const resetTransientGameState = useCallback(() => {
     setBlockedNodeId(null);
@@ -239,5 +247,6 @@ export function useAppViewModel(): AppViewModel {
     playButtonLabel: isCampaignComplete ? 'Replay Final Level' : 'Play',
     playerProgress,
     playerStats,
+    updatePlayerProgress,
   };
 }
