@@ -59,8 +59,16 @@ export function GameBoard({
 
   // Gesture tracking refs
   const panRef = useRef<{ startPageX: number; startPageY: number; startOffsetX: number; startOffsetY: number } | null>(null);
-  const pinchRef = useRef<{ startDistance: number; startZoom: number } | null>(null);
+  const pinchRef = useRef<{
+    startDistance: number;
+    startZoom: number;
+    focalX: number;
+    focalY: number;
+    startOffsetX: number;
+    startOffsetY: number;
+  } | null>(null);
   const wasPinchingRef = useRef(false);
+  const viewportLayoutRef = useRef({ x: 0, y: 0 });
 
   const gridUnit = BASE_GRID_UNIT * zoom;
   const nodeRadius = gridUnit;
@@ -75,35 +83,30 @@ export function GameBoard({
   const activeEdges = level.graph.getActiveEdges();
 
   const clampOffset = useCallback(
-    (x: number, y: number) => {
-      const minX = Math.min(0, viewportWidth - boardWidth - overscrollX);
+    (x: number, y: number, z: number) => {
+      const gu = BASE_GRID_UNIT * z;
+      const bw = (level.gridWidth + 1) * gu;
+      const bh = (level.gridHeight + 1) * gu;
+      const minX = Math.min(0, viewportWidth - bw - overscrollX);
       const maxX = overscrollX;
-      const minY = Math.min(0, viewportHeight - boardHeight - overscrollY);
+      const minY = Math.min(0, viewportHeight - bh - overscrollY);
       const maxY = overscrollY;
       return {
         x: Math.min(maxX, Math.max(minX, x)),
         y: Math.min(maxY, Math.max(minY, y)),
       };
     },
-    [boardWidth, boardHeight, viewportWidth, viewportHeight, overscrollX, overscrollY],
+    [level.gridWidth, level.gridHeight, viewportWidth, viewportHeight, overscrollX, overscrollY],
   );
 
   // Reset offset when level or viewport changes
   useEffect(() => {
     if (viewportWidth === 0 || viewportHeight === 0) return;
-    const initial = clampOffset(0, 0);
+    const initial = clampOffset(0, 0, zoom);
     offsetRef.current = initial;
     setOffset(initial);
-  }, [level.id, viewportWidth, viewportHeight, clampOffset]);
-
-  // Re-clamp offset when zoom changes (board size changes)
-  useEffect(() => {
-    const clamped = clampOffset(offsetRef.current.x, offsetRef.current.y);
-    if (clamped.x !== offsetRef.current.x || clamped.y !== offsetRef.current.y) {
-      offsetRef.current = clamped;
-      setOffset(clamped);
-    }
-  }, [zoom, clampOffset]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [level.id, viewportWidth, viewportHeight]);
 
   // --- Touch handlers (pan + pinch) ---
   const onTouchStart = useCallback(
@@ -113,7 +116,16 @@ export function GameBoard({
 
       if (touches.length === 2) {
         const dist = getDistance(touches[0].pageX, touches[0].pageY, touches[1].pageX, touches[1].pageY);
-        pinchRef.current = { startDistance: dist, startZoom: zoom };
+        const focalX = (touches[0].pageX + touches[1].pageX) / 2 - viewportLayoutRef.current.x;
+        const focalY = (touches[0].pageY + touches[1].pageY) / 2 - viewportLayoutRef.current.y;
+        pinchRef.current = {
+          startDistance: dist,
+          startZoom: zoom,
+          focalX,
+          focalY,
+          startOffsetX: offsetRef.current.x,
+          startOffsetY: offsetRef.current.y,
+        };
         panRef.current = null;
         wasPinchingRef.current = true;
       } else if (touches.length === 1) {
@@ -137,16 +149,25 @@ export function GameBoard({
       if (touches.length === 2 && pinchRef.current) {
         const dist = getDistance(touches[0].pageX, touches[0].pageY, touches[1].pageX, touches[1].pageY);
         const scale = dist / pinchRef.current.startDistance;
-        setZoom(Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, pinchRef.current.startZoom * scale)));
+        const newZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, pinchRef.current.startZoom * scale));
+        const s = newZoom / pinchRef.current.startZoom;
+        const boardX = pinchRef.current.focalX - pinchRef.current.startOffsetX;
+        const boardY = pinchRef.current.focalY - pinchRef.current.startOffsetY;
+        const newOffsetX = pinchRef.current.focalX - boardX * s;
+        const newOffsetY = pinchRef.current.focalY - boardY * s;
+        const clamped = clampOffset(newOffsetX, newOffsetY, newZoom);
+        offsetRef.current = clamped;
+        setOffset(clamped);
+        setZoom(newZoom);
       } else if (touches.length === 1 && panRef.current && !wasPinchingRef.current) {
         const dx = touches[0].pageX - panRef.current.startPageX;
         const dy = touches[0].pageY - panRef.current.startPageY;
-        const clamped = clampOffset(panRef.current.startOffsetX + dx, panRef.current.startOffsetY + dy);
+        const clamped = clampOffset(panRef.current.startOffsetX + dx, panRef.current.startOffsetY + dy, zoom);
         offsetRef.current = clamped;
         setOffset(clamped);
       }
     },
-    [setZoom, clampOffset],
+    [zoom, setZoom, clampOffset],
   );
 
   const onTouchEnd = useCallback(() => {
@@ -181,7 +202,7 @@ export function GameBoard({
       // Only start dragging after passing tap threshold to avoid eating node clicks
       if (Math.abs(dx) < TAP_DISTANCE_THRESHOLD && Math.abs(dy) < TAP_DISTANCE_THRESHOLD) return;
 
-      const clamped = clampOffset(mouseDragRef.current.startOffsetX + dx, mouseDragRef.current.startOffsetY + dy);
+      const clamped = clampOffset(mouseDragRef.current.startOffsetX + dx, mouseDragRef.current.startOffsetY + dy, zoom);
       offsetRef.current = clamped;
       setOffset(clamped);
     };
@@ -193,11 +214,23 @@ export function GameBoard({
     const handleWheel = (e: WheelEvent) => {
       if (e.ctrlKey || e.metaKey) {
         e.preventDefault();
+        const rect = node.getBoundingClientRect();
+        const focalX = e.clientX - rect.left;
+        const focalY = e.clientY - rect.top;
         const delta = -e.deltaY * 0.001;
-        setZoom(Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoom + delta)));
+        const newZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoom + delta));
+        const s = newZoom / zoom;
+        const boardX = focalX - offsetRef.current.x;
+        const boardY = focalY - offsetRef.current.y;
+        const newOffsetX = focalX - boardX * s;
+        const newOffsetY = focalY - boardY * s;
+        const clamped = clampOffset(newOffsetX, newOffsetY, newZoom);
+        offsetRef.current = clamped;
+        setOffset(clamped);
+        setZoom(newZoom);
       } else {
         // Regular wheel scrolls the board
-        const clamped = clampOffset(offsetRef.current.x - e.deltaX, offsetRef.current.y - e.deltaY);
+        const clamped = clampOffset(offsetRef.current.x - e.deltaX, offsetRef.current.y - e.deltaY, zoom);
         offsetRef.current = clamped;
         setOffset(clamped);
       }
@@ -270,6 +303,9 @@ export function GameBoard({
             ? previousSize
             : { height, width },
         );
+        (viewportRef.current as any)?.measureInWindow?.((x: number, y: number) => {
+          viewportLayoutRef.current = { x: x ?? 0, y: y ?? 0 };
+        });
       }}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
