@@ -1,11 +1,11 @@
 import type { LevelDefinition } from '../../models/Level';
 
-import levelOne from './level-1.json';
-import levelTwo from './level-2.json';
-import levelThree from './level-3.json';
-import levelFour from './level-4.json';
-import levelFive from './level-5.json';
-import levelSix from './level-6.json';
+import levelOne from './level1.json';
+import levelTwo from './level2.json';
+import levelThree from './level3.json';
+import levelFour from './level4.json';
+import levelFive from './level5.json';
+import levelSix from './level6.json';
 
 export const levelDefinitions: LevelDefinition[] = [levelOne, levelTwo, levelThree, levelFour, levelFive, levelSix].sort(
   (left, right) => left.number - right.number,
