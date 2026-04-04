@@ -1,0 +1,2 @@
+For the home screen I can have the levels look like a graph where the level is a node and that level points to the next level and so on.
+Have a burn powerup that you can use to burn a node and all the arrows going in and out of it.
