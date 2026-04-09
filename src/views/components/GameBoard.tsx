@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Svg, { Circle as SvgCircle, G, Line, Polygon } from 'react-native-svg';
 
-import type { EdgeView, LevelView, NodeView, RemovalAnimationSnapshot } from '../../viewModels/useAppViewModel';
+import type { EdgeView, LevelView, NodeView, RemovalAnimationSnapshot } from '../../viewModels/useGameViewModel';
 import { palette, spacing, typography } from '../theme';
 
 type GameBoardProps = {

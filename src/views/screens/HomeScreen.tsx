@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import type { AppViewModel } from '../../viewModels/useAppViewModel';
+import type { HomeViewModel } from '../../viewModels/useHomeViewModel';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { palette, spacing, typography } from '../theme';
 
 type HomeScreenProps = {
-  viewModel: AppViewModel;
+  viewModel: HomeViewModel;
 };
 
 export function HomeScreen({ viewModel }: HomeScreenProps) {

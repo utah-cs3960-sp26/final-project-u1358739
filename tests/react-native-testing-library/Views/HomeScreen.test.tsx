@@ -7,8 +7,6 @@ describe('HomeScreen', () => {
   it('displays the current level label', () => {
     const mockViewModel = {
       currentLevelLabel: 'Level 5',
-      currentScreen: 'home' as const,
-      gameScreen: null,
       homeHeadline: 'Test headline',
       openGameScreen: jest.fn(),
       playButtonLabel: 'Play',

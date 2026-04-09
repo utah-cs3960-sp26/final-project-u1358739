@@ -1,25 +1,19 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import type { AppViewModel } from '../../viewModels/useAppViewModel';
+import type { GameViewModel } from '../../viewModels/useGameViewModel';
 import { GameBoard } from '../components/GameBoard';
 import { palette, spacing } from '../theme';
 
 const DEFAULT_LIVES = 2;
 
 type GameScreenProps = {
-  viewModel: AppViewModel;
+  viewModel: GameViewModel;
 };
 
 export function GameScreen({ viewModel }: GameScreenProps) {
-  if (!viewModel.gameScreen) {
-    return null;
-  }
-
-  const { gameScreen } = viewModel;
-
   const hearts = Array.from({ length: DEFAULT_LIVES }, (_, i) =>
-    i < gameScreen.livesRemaining ? '❤️' : '🩶',
+    i < viewModel.livesRemaining ? '❤️' : '🩶',
   );
 
   return (
@@ -27,13 +21,13 @@ export function GameScreen({ viewModel }: GameScreenProps) {
       <View style={styles.topBar}>
         <View style={styles.leftGroup}>
           <Pressable
-            onPress={gameScreen.returnHome}
+            onPress={viewModel.returnHome}
             style={({ pressed }) => [styles.circleButton, pressed && styles.circleButtonPressed]}
           >
             <Text style={styles.circleButtonText}>⌂</Text>
           </Pressable>
           <Pressable
-            onPress={gameScreen.retryLevel}
+            onPress={viewModel.retryLevel}
             style={({ pressed }) => [styles.circleButton, pressed && styles.circleButtonPressed]}
           >
             <Text style={styles.circleButtonText}>↺</Text>
@@ -50,7 +44,7 @@ export function GameScreen({ viewModel }: GameScreenProps) {
 
         <View style={styles.rightGroup}>
           <Pressable
-            onPress={gameScreen.toggleGrid}
+            onPress={viewModel.toggleGrid}
             style={({ pressed }) => [styles.circleButton, pressed && styles.circleButtonPressed]}
           >
             <Text style={styles.circleButtonText}>⊞</Text>
@@ -59,17 +53,17 @@ export function GameScreen({ viewModel }: GameScreenProps) {
       </View>
 
       <GameBoard
-        blockedEventToken={gameScreen.blockedEventToken}
-        blockedNodeId={gameScreen.blockedNodeId}
-        isInteractionLocked={gameScreen.isInteractionLocked}
-        activeEdges={gameScreen.activeEdges}
-        activeNodes={gameScreen.activeNodes}
-        levelView={gameScreen.levelView}
-        onNodePress={gameScreen.handleNodePress}
-        removalEvent={gameScreen.removalEvent}
-        setZoom={gameScreen.setZoom}
-        showGrid={gameScreen.showGrid}
-        zoom={gameScreen.zoom}
+        blockedEventToken={viewModel.blockedEventToken}
+        blockedNodeId={viewModel.blockedNodeId}
+        isInteractionLocked={viewModel.isInteractionLocked}
+        activeEdges={viewModel.activeEdges}
+        activeNodes={viewModel.activeNodes}
+        levelView={viewModel.levelView}
+        onNodePress={viewModel.handleNodePress}
+        removalEvent={viewModel.removalEvent}
+        setZoom={viewModel.setZoom}
+        showGrid={viewModel.showGrid}
+        zoom={viewModel.zoom}
       />
     </SafeAreaView>
   );
