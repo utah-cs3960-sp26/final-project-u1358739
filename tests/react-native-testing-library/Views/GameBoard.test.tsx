@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 
-import { getPlayableLevelDefinition } from '../../../src/data/levels';
+import { getPlayableLevelDefinition, levelDefinitions } from '../../../src/data/levels';
 import { Level } from '../../../src/models/Level';
 import { useGameViewModel } from '../../../src/viewModels/useGameViewModel';
 
@@ -129,5 +129,279 @@ describe('GameBoard after tapping a valid node', () => {
 
     expect(result.current.livesRemaining).toBe(1);
     expect(result.current.blockedNodeId).toBe(2);
+  });
+});
+
+describe('blocked node handling', () => {
+  it('resets blockedNodeId to null after a valid tap', () => {
+    const level = buildLevel();
+    const { result } = renderGameViewModel(level);
+
+    act(() => {
+      result.current.handleNodePress(2);
+    });
+
+    expect(result.current.blockedNodeId).toBe(2);
+
+    act(() => {
+      result.current.handleNodePress(1);
+    });
+
+    expect(result.current.blockedNodeId).toBe(null);
+    expect(result.current.blockedEventToken).toBe(0);
+  });
+});
+
+describe('interaction lock on out-of-lives', () => {
+  it('locks interaction after losing all lives', () => {
+    const level = buildLevel();
+    const { result } = renderGameViewModel(level);
+
+    act(() => {
+      result.current.handleNodePress(2);
+    });
+
+    expect(result.current.livesRemaining).toBe(1);
+
+    act(() => {
+      result.current.handleNodePress(3);
+    });
+
+    expect(result.current.livesRemaining).toBe(0);
+    expect(result.current.isInteractionLocked).toBe(true);
+    expect(result.current.isOutOfLives).toBe(true);
+
+    const nodeCountBefore = result.current.activeNodes.length;
+
+    act(() => {
+      result.current.handleNodePress(1);
+    });
+
+    expect(result.current.activeNodes.length).toBe(nodeCountBefore);
+  });
+});
+
+describe('level completion', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  it('fires persistProgress and returnHome after completion timeout', () => {
+    const level = buildLevel();
+    const { result, persistProgress, returnHome } = renderGameViewModel(level);
+
+    act(() => { result.current.handleNodePress(1); });
+    act(() => { result.current.handleRemovalComplete(1); });
+    act(() => { result.current.handleNodePress(2); });
+    act(() => { result.current.handleRemovalComplete(2); });
+    act(() => { result.current.handleNodePress(3); });
+    act(() => { result.current.handleRemovalComplete(3); });
+    act(() => { result.current.handleNodePress(4); });
+    act(() => { result.current.handleRemovalComplete(4); });
+
+    expect(returnHome).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(340);
+    });
+
+    expect(persistProgress).toHaveBeenCalled();
+
+    const updater = persistProgress.mock.calls[persistProgress.mock.calls.length - 1][0];
+    const updated = updater({
+      currentLevelNumber: 1,
+      levelsCompleted: 0,
+      totalAttempts: 0,
+      totalMistakes: 0,
+      perfectClears: 0,
+    });
+
+    expect(updated.currentLevelNumber).toBe(2);
+    expect(updated.levelsCompleted).toBe(1);
+    expect(returnHome).toHaveBeenCalled();
+  });
+});
+
+describe('perfect clear tracking', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  it('increments perfectClears when no mistakes are made', () => {
+    const level = buildLevel();
+    const { result, persistProgress } = renderGameViewModel(level);
+
+    act(() => { result.current.handleNodePress(1); });
+    act(() => { result.current.handleRemovalComplete(1); });
+    act(() => { result.current.handleNodePress(2); });
+    act(() => { result.current.handleRemovalComplete(2); });
+    act(() => { result.current.handleNodePress(3); });
+    act(() => { result.current.handleRemovalComplete(3); });
+    act(() => { result.current.handleNodePress(4); });
+    act(() => { result.current.handleRemovalComplete(4); });
+
+    act(() => {
+      jest.advanceTimersByTime(340);
+    });
+
+    const updater = persistProgress.mock.calls[persistProgress.mock.calls.length - 1][0];
+    const updated = updater({
+      currentLevelNumber: 1,
+      levelsCompleted: 0,
+      totalAttempts: 0,
+      totalMistakes: 0,
+      perfectClears: 0,
+    });
+
+    expect(updated.perfectClears).toBe(1);
+  });
+
+  it('does not increment perfectClears when a mistake was made', () => {
+    const level = buildLevel();
+    const { result, persistProgress } = renderGameViewModel(level);
+
+    act(() => { result.current.handleNodePress(2); });
+
+    act(() => { result.current.handleNodePress(1); });
+    act(() => { result.current.handleRemovalComplete(1); });
+    act(() => { result.current.handleNodePress(2); });
+    act(() => { result.current.handleRemovalComplete(2); });
+    act(() => { result.current.handleNodePress(3); });
+    act(() => { result.current.handleRemovalComplete(3); });
+    act(() => { result.current.handleNodePress(4); });
+    act(() => { result.current.handleRemovalComplete(4); });
+
+    act(() => {
+      jest.advanceTimersByTime(340);
+    });
+
+    const updater = persistProgress.mock.calls[persistProgress.mock.calls.length - 1][0];
+    const updated = updater({
+      currentLevelNumber: 1,
+      levelsCompleted: 0,
+      totalAttempts: 0,
+      totalMistakes: 0,
+      perfectClears: 0,
+    });
+
+    expect(updated.perfectClears).toBe(0);
+  });
+});
+
+describe('retryLevel', () => {
+  it('calls beginLevel with the current level number', () => {
+    const level = buildLevel();
+    const persistProgress = jest.fn();
+    const returnHome = jest.fn();
+    const beginLevel = jest.fn();
+
+    const { result } = renderHook(() =>
+      useGameViewModel(level, persistProgress, returnHome, beginLevel),
+    );
+
+    act(() => {
+      result.current.retryLevel();
+    });
+
+    expect(beginLevel).toHaveBeenCalledWith(1);
+  });
+});
+
+describe('zoom clamping', () => {
+  it('clamps zoom to minimum 0.25', () => {
+    const level = buildLevel();
+    const { result } = renderGameViewModel(level);
+
+    act(() => {
+      result.current.setZoom(0.1);
+    });
+
+    expect(result.current.zoom).toBe(0.25);
+  });
+
+  it('clamps zoom to maximum 1.55', () => {
+    const level = buildLevel();
+    const { result } = renderGameViewModel(level);
+
+    act(() => {
+      result.current.setZoom(2.0);
+    });
+
+    expect(result.current.zoom).toBe(1.55);
+  });
+});
+
+describe('grid toggle', () => {
+  it('toggles showGrid from false to true', () => {
+    const level = buildLevel();
+    const { result } = renderGameViewModel(level);
+
+    expect(result.current.showGrid).toBe(false);
+
+    act(() => {
+      result.current.toggleGrid();
+    });
+
+    expect(result.current.showGrid).toBe(true);
+  });
+
+  it('toggles showGrid back to false', () => {
+    const level = buildLevel();
+    const { result } = renderGameViewModel(level);
+
+    act(() => {
+      result.current.toggleGrid();
+    });
+
+    act(() => {
+      result.current.toggleGrid();
+    });
+
+    expect(result.current.showGrid).toBe(false);
+  });
+});
+
+describe('parameterized full-solve for every shipped level', () => {
+  it.each(levelDefinitions)('solves level $number ($name) to completion', (def) => {
+    jest.useFakeTimers();
+
+    const level = Level.fromDefinition(def);
+    const persistProgress = jest.fn();
+    const returnHome = jest.fn();
+    const beginLevel = jest.fn();
+
+    const { result } = renderHook(() =>
+      useGameViewModel(level, persistProgress, returnHome, beginLevel),
+    );
+
+    while (level.graph.getActiveNodes().length > 0) {
+      const removable = level.graph.getActiveNodes().find((n) => n.inDegree === 0);
+      expect(removable).toBeDefined();
+
+      act(() => {
+        result.current.handleNodePress(removable!.id);
+      });
+
+      act(() => {
+        result.current.handleRemovalComplete(removable!.id);
+      });
+    }
+
+    act(() => {
+      jest.advanceTimersByTime(340);
+    });
+
+    expect(level.graph.getActiveNodes()).toEqual([]);
+    expect(returnHome).toHaveBeenCalled();
+
+    jest.useRealTimers();
   });
 });
