@@ -4,14 +4,13 @@ import {
   Platform,
   Pressable,
   StyleSheet,
-  Text,
   useWindowDimensions,
   View,
 } from 'react-native';
 import Svg, { Circle as SvgCircle, G, Line, Polygon } from 'react-native-svg';
 
 import type { EdgeView, LevelView, NodeView } from '../../viewModels/useGameViewModel';
-import { palette, spacing, typography } from '../theme';
+import { palette, spacing } from '../theme';
 
 type GameBoardProps = {
   levelView: LevelView;
@@ -410,7 +409,6 @@ function NodeToken({
   fadeProgress,
 }: NodeTokenProps) {
   const shake = useRef(new Animated.Value(0)).current;
-  const isReady = node.inDegree === 0;
   const isFading = node.status === 'fading';
 
   useEffect(() => {
@@ -451,8 +449,7 @@ function NodeToken({
         onPress={() => onPress(node.id)}
         style={({ pressed }) => [
           styles.node,
-          isReady ? styles.nodeReady : styles.nodeBlocked,
-          null,
+          styles.nodeDefault,
         ]}
       />
     </Animated.View>
@@ -591,25 +588,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: spacing.sm,
   },
-  nodeBlocked: {
-    backgroundColor: palette.nodeBackground,
-    borderColor: '#000000',
-  },
-  nodeDegree: {
-    color: palette.mutedText,
-    fontSize: 12,
-    fontWeight: '600',
-    letterSpacing: 0.3,
-  },
-  nodeId: {
-    color: palette.text,
-    fontSize: typography.headingSize,
-    fontWeight: '800',
-  },
-  nodePressed: {
-    opacity: 0.82,
-  },
-  nodeReady: {
+  nodeDefault: {
     backgroundColor: palette.nodeBackground,
     borderColor: '#000000',
   },

@@ -82,25 +82,6 @@ describe('GameBoard after tapping a valid node', () => {
     expect(activeIds).toEqual([2, 3, 4]);
   });
 
-  it('updates neighbor in-degrees immediately on tap', () => {
-    const level = buildLevel();
-    const { result } = renderGameViewModel(level);
-
-    const node2Before = result.current.activeNodes.find((n) => n.id === 2)!;
-    const node3Before = result.current.activeNodes.find((n) => n.id === 3)!;
-    expect(node2Before.inDegree).toBe(1);
-    expect(node3Before.inDegree).toBe(1);
-
-    act(() => {
-      result.current.handleNodePress(1);
-    });
-
-    const node2After = result.current.activeNodes.find((n) => n.id === 2)!;
-    const node3After = result.current.activeNodes.find((n) => n.id === 3)!;
-    expect(node2After.inDegree).toBe(0);
-    expect(node3After.inDegree).toBe(0);
-  });
-
   it('does not lock interaction while a node is fading', () => {
     const level = buildLevel();
     const { result } = renderGameViewModel(level);

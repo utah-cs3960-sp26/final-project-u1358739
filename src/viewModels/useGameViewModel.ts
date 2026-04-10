@@ -10,7 +10,6 @@ export type NodeView = {
   id: number;
   x: number;
   y: number;
-  inDegree: number;
   status: NodeStatus;
 };
 
@@ -65,7 +64,6 @@ function createGraphSnapshot(level: Level): GraphSnapshot {
       id: n.id,
       x: n.x,
       y: n.y,
-      inDegree: n.inDegree,
       status: 'active' as const,
     })),
     edges: level.graph.getActiveEdges().map((e) => ({
@@ -142,19 +140,12 @@ export function useGameViewModel(
       setBlockedNodeId(null);
       setBlockedEventToken(0);
 
-      const updatedNeighborDegrees = new Map(
-        tapResult.affectedNeighbors.map((n) => [n.id, n.inDegree]),
-      );
-
       setGraphSnapshot((previous) => ({
-        nodes: previous.nodes.map((node) => {
-          if (node.id === tapResult.nodeId) {
-            return { ...node, status: 'fading' as const };
-          }
-
-          const nextInDegree = updatedNeighborDegrees.get(node.id);
-          return nextInDegree !== undefined ? { ...node, inDegree: nextInDegree } : node;
-        }),
+        nodes: previous.nodes.map((node) =>
+          node.id === tapResult.nodeId
+            ? { ...node, status: 'fading' as const }
+            : node,
+        ),
         edges: previous.edges.map((edge) =>
           edge.fromId === tapResult.nodeId
             ? { ...edge, status: 'fading' as const }
