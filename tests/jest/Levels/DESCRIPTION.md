@@ -25,3 +25,6 @@ See `RUNNING_TESTS.md` for the exact commands.
 - Neighbor references point to existing node IDs.
 - Grid dimensions are positive.
 - The level is solvable (can be completed by repeatedly removing in-degree-0 nodes).
+
+
+Ok now I want you to make me a few level tests.  First look into the descriptions file that you just made and see what all needs to be there.  Then I want you to make a few tests.  One for testing if the file is valid json.  One for testing if there are unique node IDs (no duplicates).  One for test on all levels, all tests ensuring all node positions are withing the grid bounds.  One for ensuring that all neighbor references point to an existing node ID.  One for ensuring the grid dimensions are positive.  For now that is all you need to do. 
