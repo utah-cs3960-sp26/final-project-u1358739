@@ -3,29 +3,29 @@
   "number": 8,
   "name": "Level 8",
   "grid": {
-    "width": 12,
-    "height": 12
+    "width": 16,
+    "height": 14
   },
   "timeLimit": 90,
   "nodes": [
     {
       "id": 1,
-      "position": { "x": 0, "y": 0 },
+      "position": { "x": 1, "y": 1 },
       "neighbors": [3, 4]
     },
     {
       "id": 2,
-      "position": { "x": 0, "y": 6 },
+      "position": { "x": 1, "y": 7 },
       "neighbors": [5]
     },
     {
       "id": 3,
-      "position": { "x": 3, "y": 2 },
+      "position": { "x": 3, "y": 3 },
       "neighbors": [6]
     },
     {
       "id": 4,
-      "position": { "x": 2, "y": 8 },
+      "position": { "x": 3, "y": 9 },
       "neighbors": [5, 7]
     },
     {
@@ -35,37 +35,37 @@
     },
     {
       "id": 6,
-      "position": { "x": 6, "y": 1 },
+      "position": { "x": 7, "y": 2 },
       "neighbors": [8, 9]
     },
     {
       "id": 7,
-      "position": { "x": 5, "y": 10 },
+      "position": { "x": 5, "y": 11 },
       "neighbors": [10]
     },
     {
       "id": 8,
-      "position": { "x": 8, "y": 4 },
+      "position": { "x": 9, "y": 5 },
       "neighbors": [11]
     },
     {
       "id": 9,
-      "position": { "x": 9, "y": 0 },
+      "position": { "x": 9, "y": 1 },
       "neighbors": [11]
     },
     {
       "id": 10,
-      "position": { "x": 8, "y": 11 },
+      "position": { "x": 9, "y": 11 },
       "neighbors": [12]
     },
     {
       "id": 11,
-      "position": { "x": 11, "y": 3 },
+      "position": { "x": 12, "y": 3 },
       "neighbors": [12]
     },
     {
       "id": 12,
-      "position": { "x": 11, "y": 8 },
+      "position": { "x": 12, "y": 8 },
       "neighbors": []
     }
   ]

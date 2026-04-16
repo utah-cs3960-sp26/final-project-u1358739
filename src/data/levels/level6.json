@@ -3,19 +3,19 @@
   "number": 6,
   "name": "Level 6",
   "grid": {
-    "width": 15,
-    "height": 15
+    "width": 17,
+    "height": 17
   },
   "timeLimit": "none",
   "nodes": [
     {
       "id": 1,
-      "position": { "x": 0, "y": 1 },
+      "position": { "x": 1, "y": 2 },
       "neighbors": []
     },
     {
       "id": 2,
-      "position": { "x": 0, "y": 5 },
+      "position": { "x": 1, "y": 6 },
       "neighbors": []
     },
     {
@@ -25,7 +25,7 @@
     },
     {
       "id": 4,
-      "position": { "x": 3, "y": 1 },
+      "position": { "x": 3, "y": 2 },
       "neighbors": []
     },
     {
@@ -35,17 +35,17 @@
     },
     {
       "id": 6,
-      "position": { "x": 6, "y": 2 },
+      "position": { "x": 6, "y": 3 },
       "neighbors": []
     },
     {
       "id": 7,
-      "position": { "x": 5, "y": 14 },
+      "position": { "x": 5, "y": 13 },
       "neighbors": []
     },
     {
       "id": 8,
-      "position": { "x": 10, "y": 1 },
+      "position": { "x": 10, "y": 2 },
       "neighbors": []
     },
     {
@@ -55,7 +55,7 @@
     },
     {
       "id": 10,
-      "position": { "x": 14, "y": 2 },
+      "position": { "x": 13, "y": 3 },
       "neighbors": []
     },
     {
@@ -65,12 +65,12 @@
     },
     {
       "id": 12,
-      "position": { "x": 1, "y": 12 },
+      "position": { "x": 2, "y": 14 },
       "neighbors": []
     },
     {
       "id": 13,
-      "position": { "x": 12, "y": 13 },
+      "position": { "x": 13, "y": 13 },
       "neighbors": []
     }
   ]
