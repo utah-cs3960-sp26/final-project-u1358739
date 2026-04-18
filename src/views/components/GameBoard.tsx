@@ -35,6 +35,53 @@ function getDistance(x1: number, y1: number, x2: number, y2: number) {
   return Math.hypot(x2 - x1, y2 - y1);
 }
 
+function clampBoardOffset(
+  x: number,
+  y: number,
+  zoom: number,
+  gridWidth: number,
+  gridHeight: number,
+  viewportWidth: number,
+  viewportHeight: number,
+) {
+  const gu = BASE_GRID_UNIT * zoom;
+  const bw = (gridWidth + 1) * gu;
+  const bh = (gridHeight + 1) * gu;
+  const overscrollX = viewportWidth / 2;
+  const overscrollY = viewportHeight / 2;
+  const minX = Math.min(0, viewportWidth - bw - overscrollX);
+  const maxX = overscrollX;
+  const minY = Math.min(0, viewportHeight - bh - overscrollY);
+  const maxY = overscrollY;
+
+  return {
+    x: Math.min(maxX, Math.max(minX, x)),
+    y: Math.min(maxY, Math.max(minY, y)),
+  };
+}
+
+function getCenteredBoardOffset(
+  zoom: number,
+  gridWidth: number,
+  gridHeight: number,
+  viewportWidth: number,
+  viewportHeight: number,
+) {
+  const gu = BASE_GRID_UNIT * zoom;
+  const bw = (gridWidth + 1) * gu;
+  const bh = (gridHeight + 1) * gu;
+
+  return clampBoardOffset(
+    (viewportWidth - bw) / 2,
+    (viewportHeight - bh) / 2,
+    zoom,
+    gridWidth,
+    gridHeight,
+    viewportWidth,
+    viewportHeight,
+  );
+}
+
 export function GameBoard({
   levelView,
   activeNodes,
@@ -51,14 +98,21 @@ export function GameBoard({
   const windowSize = useWindowDimensions();
   const viewportRef = useRef<View>(null);
   const [frameSize, setFrameSize] = useState({ height: 0, width: 0 });
+  const initialOffset = getCenteredBoardOffset(
+    zoom,
+    levelView.gridWidth,
+    levelView.gridHeight,
+    windowSize.width,
+    windowSize.height,
+  );
 
   // Per-node fade animation tracking
   const fadeAnimationsRef = useRef<Map<number, { animatedValue: Animated.Value; progress: number }>>(new Map());
   const [, forceRender] = useState(0);
 
   // Pan/scroll offset (translation applied to the board)
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const offsetRef = useRef({ x: 0, y: 0 });
+  const [offset, setOffset] = useState(initialOffset);
+  const offsetRef = useRef(initialOffset);
 
   // Gesture tracking refs
   const panRef = useRef<{ startPageX: number; startPageY: number; startOffsetX: number; startOffsetY: number } | null>(null);
@@ -84,34 +138,30 @@ export function GameBoard({
 
   const clampOffset = useCallback(
     (x: number, y: number, z: number) => {
-      const gu = BASE_GRID_UNIT * z;
-      const bw = (levelView.gridWidth + 1) * gu;
-      const bh = (levelView.gridHeight + 1) * gu;
-      const minX = Math.min(0, viewportWidth - bw - overscrollX);
-      const maxX = overscrollX;
-      const minY = Math.min(0, viewportHeight - bh - overscrollY);
-      const maxY = overscrollY;
-      return {
-        x: Math.min(maxX, Math.max(minX, x)),
-        y: Math.min(maxY, Math.max(minY, y)),
-      };
+      return clampBoardOffset(
+        x,
+        y,
+        z,
+        levelView.gridWidth,
+        levelView.gridHeight,
+        viewportWidth,
+        viewportHeight,
+      );
     },
-    [levelView.gridWidth, levelView.gridHeight, viewportWidth, viewportHeight, overscrollX, overscrollY],
+    [levelView.gridWidth, levelView.gridHeight, viewportWidth, viewportHeight],
   );
 
   const getCenteredOffset = useCallback(
     (z: number) => {
-      const gu = BASE_GRID_UNIT * z;
-      const bw = (levelView.gridWidth + 1) * gu;
-      const bh = (levelView.gridHeight + 1) * gu;
-
-      return clampOffset(
-        (viewportWidth - bw) / 2,
-        (viewportHeight - bh) / 2,
+      return getCenteredBoardOffset(
         z,
+        levelView.gridWidth,
+        levelView.gridHeight,
+        viewportWidth,
+        viewportHeight,
       );
     },
-    [clampOffset, levelView.gridHeight, levelView.gridWidth, viewportHeight, viewportWidth],
+    [levelView.gridHeight, levelView.gridWidth, viewportHeight, viewportWidth],
   );
 
   // Reset offset when level or viewport changes
