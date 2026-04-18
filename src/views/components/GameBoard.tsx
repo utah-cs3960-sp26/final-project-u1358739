@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactElement } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactElement } from 'react';
 import {
   Animated,
   Platform,
@@ -95,6 +95,7 @@ export function GameBoard({
   onNodePress,
   onRemovalComplete,
 }: GameBoardProps) {
+  const layoutReadyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const windowSize = useWindowDimensions();
   const viewportRef = useRef<View>(null);
   const [frameSize, setFrameSize] = useState({ height: 0, width: 0 });
@@ -113,6 +114,7 @@ export function GameBoard({
   // Pan/scroll offset (translation applied to the board)
   const [offset, setOffset] = useState(initialOffset);
   const offsetRef = useRef(initialOffset);
+  const [isInitialPositionReady, setIsInitialPositionReady] = useState(false);
 
   // Gesture tracking refs
   const panRef = useRef<{ startPageX: number; startPageY: number; startOffsetX: number; startOffsetY: number } | null>(null);
@@ -133,8 +135,7 @@ export function GameBoard({
   const boardHeight = (levelView.gridHeight + 1) * gridUnit;
   const viewportWidth = frameSize.width || windowSize.width;
   const viewportHeight = frameSize.height || windowSize.height;
-  const overscrollX = viewportWidth / 2;
-  const overscrollY = viewportHeight / 2;
+  const hasMeasuredFrame = frameSize.width > 0 && frameSize.height > 0;
 
   const clampOffset = useCallback(
     (x: number, y: number, z: number) => {
@@ -165,13 +166,38 @@ export function GameBoard({
   );
 
   // Reset offset when level or viewport changes
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (viewportWidth === 0 || viewportHeight === 0) return;
     const initial = getCenteredOffset(zoom);
     offsetRef.current = initial;
     setOffset(initial);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [levelView.id, viewportWidth, viewportHeight]);
+
+  useEffect(() => {
+    if (!hasMeasuredFrame) {
+      setIsInitialPositionReady(false);
+      return;
+    }
+
+    setIsInitialPositionReady(false);
+
+    if (layoutReadyTimeoutRef.current) {
+      clearTimeout(layoutReadyTimeoutRef.current);
+    }
+
+    layoutReadyTimeoutRef.current = setTimeout(() => {
+      layoutReadyTimeoutRef.current = null;
+      setIsInitialPositionReady(true);
+    }, 32);
+
+    return () => {
+      if (layoutReadyTimeoutRef.current) {
+        clearTimeout(layoutReadyTimeoutRef.current);
+        layoutReadyTimeoutRef.current = null;
+      }
+    };
+  }, [hasMeasuredFrame, viewportWidth, viewportHeight]);
 
   // --- Touch handlers (pan + pinch) ---
   const onTouchStart = useCallback(
@@ -361,6 +387,10 @@ export function GameBoard({
   useEffect(() => {
     const animations = fadeAnimationsRef.current;
     return () => {
+      if (layoutReadyTimeoutRef.current) {
+        clearTimeout(layoutReadyTimeoutRef.current);
+        layoutReadyTimeoutRef.current = null;
+      }
       for (const entry of animations.values()) {
         entry.animatedValue.stopAnimation();
       }
@@ -392,11 +422,14 @@ export function GameBoard({
       ref={viewportRef}
       onLayout={(event) => {
         const { height, width } = event.nativeEvent.layout;
-        setFrameSize((previousSize) =>
-          previousSize.height === height && previousSize.width === width
-            ? previousSize
-            : { height, width },
-        );
+        setFrameSize((previousSize) => {
+          if (previousSize.height === height && previousSize.width === width) {
+            return previousSize;
+          }
+
+          setIsInitialPositionReady(false);
+          return { height, width };
+        });
         (viewportRef.current as any)?.measureInWindow?.((x: number, y: number) => {
           viewportLayoutRef.current = { x: x ?? 0, y: y ?? 0 };
         });
@@ -407,7 +440,7 @@ export function GameBoard({
       {...(Platform.OS === 'web' ? { onMouseDown } : {})}
       style={styles.viewportFrame}
     >
-      <View style={boardStyle}>
+      <View style={[boardStyle, (!hasMeasuredFrame || !isInitialPositionReady) && styles.boardHiddenUntilMeasured]}>
         <Svg height={boardHeight} pointerEvents="none" style={StyleSheet.absoluteFill} width={boardWidth}>
           {showGrid ? renderGrid(levelView, gridUnit) : null}
           {visibleEdges.map((edge) => renderEdge(edge, levelView.gridHeight, gridUnit, nodeRadius))}
@@ -644,6 +677,9 @@ function lerp(start: number, end: number, progress: number) {
 const styles = StyleSheet.create({
   board: {
     backgroundColor: palette.boardBackground,
+  },
+  boardHiddenUntilMeasured: {
+    opacity: 0,
   },
   node: {
     alignItems: 'center',

@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
   topBar: {
     alignItems: 'center',
     flexDirection: 'row',
+    height: 52,
     paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs,
   },
   leftGroup: {
     flexDirection: 'row',
@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
   },
   heartText: {
     fontSize: 20,
+    lineHeight: 20,
   },
   rightGroup: {
     alignItems: 'center',
@@ -107,6 +108,7 @@ const styles = StyleSheet.create({
     color: palette.text,
     fontSize: 16,
     fontVariant: ['tabular-nums'],
+    lineHeight: 16,
   },
   timerExpired: {
     color: '#e53935',
@@ -125,5 +127,6 @@ const styles = StyleSheet.create({
   circleButtonText: {
     color: palette.text,
     fontSize: 18,
+    lineHeight: 18,
   },
 });
