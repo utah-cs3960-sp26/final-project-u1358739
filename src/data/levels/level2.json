@@ -3,34 +3,57 @@
   "number": 2,
   "name": "Level 2",
   "grid": {
-    "width": 10,
-    "height": 10
+    "width": 9,
+    "height": 7
   },
   "timeLimit": "none",
   "nodes": [
     {
       "id": 1,
-      "position": { "x": 1, "y": 2 },
-      "neighbors": [3]
+      "position": {
+        "x": 1,
+        "y": 1
+      },
+      "neighbors": [
+        3
+      ]
     },
     {
       "id": 2,
-      "position": { "x": 1, "y": 6 },
-      "neighbors": [4]
+      "position": {
+        "x": 1,
+        "y": 5
+      },
+      "neighbors": [
+        4
+      ]
     },
     {
       "id": 3,
-      "position": { "x": 4, "y": 2 },
-      "neighbors": [5]
+      "position": {
+        "x": 4,
+        "y": 1
+      },
+      "neighbors": [
+        5
+      ]
     },
     {
       "id": 4,
-      "position": { "x": 4, "y": 6 },
-      "neighbors": [5]
+      "position": {
+        "x": 4,
+        "y": 5
+      },
+      "neighbors": [
+        5
+      ]
     },
     {
       "id": 5,
-      "position": { "x": 7, "y": 4 },
+      "position": {
+        "x": 7,
+        "y": 3
+      },
       "neighbors": []
     }
   ]

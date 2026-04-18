@@ -3,74 +3,113 @@
   "number": 6,
   "name": "Level 6",
   "grid": {
-    "width": 20,
-    "height": 20
+    "width": 19,
+    "height": 18
   },
   "timeLimit": "none",
   "nodes": [
     {
       "id": 1,
-      "position": { "x": 1, "y": 1 },
+      "position": {
+        "x": 1,
+        "y": 1
+      },
       "neighbors": []
     },
     {
       "id": 2,
-      "position": { "x": 1, "y": 7 },
+      "position": {
+        "x": 1,
+        "y": 7
+      },
       "neighbors": []
     },
     {
       "id": 3,
-      "position": { "x": 1, "y": 13 },
+      "position": {
+        "x": 1,
+        "y": 13
+      },
       "neighbors": []
     },
     {
       "id": 4,
-      "position": { "x": 5, "y": 1 },
+      "position": {
+        "x": 5,
+        "y": 1
+      },
       "neighbors": []
     },
     {
       "id": 5,
-      "position": { "x": 5, "y": 7 },
+      "position": {
+        "x": 5,
+        "y": 7
+      },
       "neighbors": []
     },
     {
       "id": 6,
-      "position": { "x": 5, "y": 13 },
+      "position": {
+        "x": 5,
+        "y": 13
+      },
       "neighbors": []
     },
     {
       "id": 7,
-      "position": { "x": 9, "y": 4 },
+      "position": {
+        "x": 9,
+        "y": 4
+      },
       "neighbors": []
     },
     {
       "id": 8,
-      "position": { "x": 9, "y": 10 },
+      "position": {
+        "x": 9,
+        "y": 10
+      },
       "neighbors": []
     },
     {
       "id": 9,
-      "position": { "x": 9, "y": 16 },
+      "position": {
+        "x": 9,
+        "y": 16
+      },
       "neighbors": []
     },
     {
       "id": 10,
-      "position": { "x": 13, "y": 1 },
+      "position": {
+        "x": 13,
+        "y": 1
+      },
       "neighbors": []
     },
     {
       "id": 11,
-      "position": { "x": 13, "y": 7 },
+      "position": {
+        "x": 13,
+        "y": 7
+      },
       "neighbors": []
     },
     {
       "id": 12,
-      "position": { "x": 13, "y": 13 },
+      "position": {
+        "x": 13,
+        "y": 13
+      },
       "neighbors": []
     },
     {
       "id": 13,
-      "position": { "x": 17, "y": 4 },
+      "position": {
+        "x": 17,
+        "y": 4
+      },
       "neighbors": []
     }
   ]
