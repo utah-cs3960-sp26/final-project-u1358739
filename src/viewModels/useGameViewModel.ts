@@ -106,6 +106,7 @@ export function useGameViewModel(
   const [blockedEventToken, setBlockedEventToken] = useState(0);
   const [isCompleting, setIsCompleting] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState<number | null>(activeLevel.timeLimit);
+  const [hasStartedTimer, setHasStartedTimer] = useState(false);
 
   useEffect(() => {
     completedRemovalIdsRef.current.clear();
@@ -118,6 +119,7 @@ export function useGameViewModel(
     setShowGrid(false);
     setZoom(0.5);
     setTimeRemaining(activeLevel.timeLimit);
+    setHasStartedTimer(false);
 
     if (completionTimeoutRef.current) {
       clearTimeout(completionTimeoutRef.current);
@@ -131,7 +133,7 @@ export function useGameViewModel(
   }, [activeLevel]);
 
   useEffect(() => {
-    if (timeRemaining === null || timeRemaining <= 0) {
+    if (!hasStartedTimer || timeRemaining === null || timeRemaining <= 0) {
       return;
     }
 
@@ -156,7 +158,7 @@ export function useGameViewModel(
         timerRef.current = null;
       }
     };
-  }, [activeLevel]);
+  }, [activeLevel, hasStartedTimer, timeRemaining]);
 
   const isOutOfTime = timeRemaining !== null && timeRemaining <= 0;
   const isOutOfLives = activeLevel.isOutOfLives();
@@ -170,6 +172,10 @@ export function useGameViewModel(
     (nodeId: number) => {
       if (isInteractionLocked) {
         return;
+      }
+
+      if (!hasStartedTimer && activeLevel.timeLimit !== null) {
+        setHasStartedTimer(true);
       }
 
       const tapResult = activeLevel.tapNode(nodeId);
@@ -203,7 +209,7 @@ export function useGameViewModel(
         ),
       }));
     },
-    [activeLevel, isInteractionLocked, persistProgress],
+    [activeLevel, hasStartedTimer, isInteractionLocked, persistProgress],
   );
 
   const handleRemovalComplete = useCallback(

@@ -19,6 +19,11 @@ function buildLevel(): Level {
   return Level.fromDefinition(definition);
 }
 
+function buildTimedLevel(): Level {
+  const definition = getPlayableLevelDefinition(8);
+  return Level.fromDefinition(definition);
+}
+
 function renderGameViewModel(level: Level) {
   const persistProgress = jest.fn();
   const returnHome = jest.fn();
@@ -406,6 +411,45 @@ describe('grid toggle', () => {
     });
 
     expect(result.current.showGrid).toBe(false);
+  });
+});
+
+describe('level timer', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  it('does not count down before the first node press', () => {
+    const level = buildTimedLevel();
+    const { result } = renderGameViewModel(level);
+
+    expect(result.current.timeDisplay).toBe('0:15');
+
+    act(() => {
+      jest.advanceTimersByTime(5000);
+    });
+
+    expect(result.current.timeDisplay).toBe('0:15');
+    expect(result.current.isOutOfTime).toBe(false);
+  });
+
+  it('starts counting down after the first node press', () => {
+    const level = buildTimedLevel();
+    const { result } = renderGameViewModel(level);
+
+    act(() => {
+      result.current.handleNodePress(1);
+    });
+
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+
+    expect(result.current.timeDisplay).toBe('0:14');
   });
 });
 
