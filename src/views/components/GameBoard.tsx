@@ -109,6 +109,8 @@ export function GameBoard({
 
   // Per-node fade animation tracking
   const fadeAnimationsRef = useRef<Map<number, { animatedValue: Animated.Value; progress: number }>>(new Map());
+  const completedRemovalNodeIdsRef = useRef<Set<number>>(new Set());
+  const previousActiveNodeCountRef = useRef(activeNodes.length);
   const [, forceRender] = useState(0);
 
   // Pan/scroll offset (translation applied to the board)
@@ -173,6 +175,24 @@ export function GameBoard({
     setOffset(initial);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [levelView.id, viewportWidth, viewportHeight]);
+
+  useEffect(() => {
+    completedRemovalNodeIdsRef.current.clear();
+  }, [levelView.id]);
+
+  useEffect(() => {
+    const isFreshBoardState =
+      activeNodes.length > 0 &&
+      activeNodes.every((node) => node.status === 'active') &&
+      activeEdges.every((edge) => edge.status === 'active') &&
+      fadeAnimationsRef.current.size === 0;
+
+    if (isFreshBoardState && activeNodes.length > previousActiveNodeCountRef.current) {
+      completedRemovalNodeIdsRef.current.clear();
+    }
+
+    previousActiveNodeCountRef.current = activeNodes.length;
+  }, [activeEdges, activeNodes]);
 
   useEffect(() => {
     if (!hasMeasuredFrame) {
@@ -347,10 +367,11 @@ export function GameBoard({
 
   useEffect(() => {
     const animations = fadeAnimationsRef.current;
+    const completedRemovalNodeIds = completedRemovalNodeIdsRef.current;
 
     // Start animations for newly fading nodes
     for (const nodeId of fadingNodeIds) {
-      if (animations.has(nodeId)) continue;
+      if (animations.has(nodeId) || completedRemovalNodeIds.has(nodeId)) continue;
 
       const animatedValue = new Animated.Value(0);
       const entry = { animatedValue, progress: 0 };
@@ -368,6 +389,7 @@ export function GameBoard({
       }).start(({ finished }) => {
         if (finished) {
           animatedValue.removeListener(listener);
+          completedRemovalNodeIds.add(nodeId);
           animations.delete(nodeId);
           onRemovalComplete(nodeId);
         }

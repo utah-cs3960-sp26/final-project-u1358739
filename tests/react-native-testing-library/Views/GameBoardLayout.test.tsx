@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, create, type ReactTestRenderer } from 'react-test-renderer';
-import { View } from 'react-native';
+import { Animated, View } from 'react-native';
 
 import { GameBoard } from '../../../src/views/components/GameBoard';
 import type { EdgeView, LevelView, NodeView } from '../../../src/viewModels/useGameViewModel';
@@ -100,5 +100,108 @@ describe('GameBoard startup layout stability', () => {
     expect(getBoard(tree).props.style).not.toEqual(
       expect.arrayContaining([expect.objectContaining({ opacity: 0 })]),
     );
+  });
+});
+
+describe('GameBoard same-level retry behavior', () => {
+  const originalTiming = Animated.timing;
+
+  beforeEach(() => {
+    jest.spyOn(Animated, 'timing').mockImplementation((value, config) => {
+      return {
+        reset: jest.fn(),
+        start: (callback?: (result: { finished: boolean }) => void) => {
+          value.setValue(config.toValue);
+          callback?.({ finished: true });
+        },
+        stop: jest.fn(),
+      } as any;
+    });
+  });
+
+  afterEach(() => {
+    Animated.timing = originalTiming;
+    jest.restoreAllMocks();
+  });
+
+  it('allows the same node id to be removed again after restarting the same level', () => {
+    const onRemovalComplete = jest.fn();
+    let tree: ReactTestRenderer;
+
+    act(() => {
+      tree = create(
+        <GameBoard
+          activeEdges={[]}
+          activeNodes={[{ id: 1, x: 3, y: 3, status: 'fading' }]}
+          blockedEventToken={0}
+          blockedNodeId={null}
+          isInteractionLocked={false}
+          levelView={levelView}
+          onNodePress={jest.fn()}
+          onRemovalComplete={onRemovalComplete}
+          setZoom={jest.fn()}
+          showGrid={false}
+          zoom={0.5}
+        />,
+      );
+    });
+
+    expect(onRemovalComplete).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      tree!.update(
+        <GameBoard
+          activeEdges={[]}
+          activeNodes={[]}
+          blockedEventToken={0}
+          blockedNodeId={null}
+          isInteractionLocked={false}
+          levelView={levelView}
+          onNodePress={jest.fn()}
+          onRemovalComplete={onRemovalComplete}
+          setZoom={jest.fn()}
+          showGrid={false}
+          zoom={0.5}
+        />,
+      );
+    });
+
+    act(() => {
+      tree!.update(
+        <GameBoard
+          activeEdges={[]}
+          activeNodes={[{ id: 1, x: 3, y: 3, status: 'active' }]}
+          blockedEventToken={0}
+          blockedNodeId={null}
+          isInteractionLocked={false}
+          levelView={levelView}
+          onNodePress={jest.fn()}
+          onRemovalComplete={onRemovalComplete}
+          setZoom={jest.fn()}
+          showGrid={false}
+          zoom={0.5}
+        />,
+      );
+    });
+
+    act(() => {
+      tree!.update(
+        <GameBoard
+          activeEdges={[]}
+          activeNodes={[{ id: 1, x: 3, y: 3, status: 'fading' }]}
+          blockedEventToken={0}
+          blockedNodeId={null}
+          isInteractionLocked={false}
+          levelView={levelView}
+          onNodePress={jest.fn()}
+          onRemovalComplete={onRemovalComplete}
+          setZoom={jest.fn()}
+          showGrid={false}
+          zoom={0.5}
+        />,
+      );
+    });
+
+    expect(onRemovalComplete).toHaveBeenCalledTimes(2);
   });
 });
