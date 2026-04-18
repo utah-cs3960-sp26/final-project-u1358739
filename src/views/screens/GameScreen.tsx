@@ -5,14 +5,13 @@ import type { GameViewModel } from '../../viewModels/useGameViewModel';
 import { GameBoard } from '../components/GameBoard';
 import { palette, spacing } from '../theme';
 
-const DEFAULT_LIVES = 2;
 
 type GameScreenProps = {
   viewModel: GameViewModel;
 };
 
 export function GameScreen({ viewModel }: GameScreenProps) {
-  const hearts = Array.from({ length: DEFAULT_LIVES }, (_, i) =>
+  const hearts = Array.from({ length: viewModel.maxLives }, (_, i) =>
     i < viewModel.livesRemaining ? '❤️' : '🩶',
   );
 

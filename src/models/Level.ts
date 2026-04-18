@@ -37,7 +37,7 @@ export type LevelTapResult =
       isComplete: boolean;
     };
 
-const DEFAULT_MAX_LIVES = 2;
+const DEFAULT_MAX_LIVES = 3;
 
 export class Level {
   readonly id: string;

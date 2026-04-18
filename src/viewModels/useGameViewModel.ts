@@ -48,6 +48,7 @@ export type GameViewModel = {
   levelSummary: string;
   levelView: LevelView;
   livesRemaining: number;
+  maxLives: number;
   retryLevel: () => void;
   returnHome: () => void;
   setZoom: (newZoom: number) => void;
@@ -256,6 +257,7 @@ export function useGameViewModel(
       gridHeight: activeLevel.gridHeight,
     },
     livesRemaining,
+    maxLives: activeLevel.maxLives,
     retryLevel,
     returnHome,
     setZoom: (newZoom: number) => {

@@ -127,7 +127,7 @@ describe('GameBoard after tapping a valid node', () => {
       result.current.handleNodePress(2);
     });
 
-    expect(result.current.livesRemaining).toBe(1);
+    expect(result.current.livesRemaining).toBe(2);
     expect(result.current.blockedNodeId).toBe(2);
   });
 });
@@ -161,10 +161,18 @@ describe('interaction lock on out-of-lives', () => {
       result.current.handleNodePress(2);
     });
 
-    expect(result.current.livesRemaining).toBe(1);
+    expect(result.current.livesRemaining).toBe(2);
 
     act(() => {
       result.current.handleNodePress(3);
+    });
+
+    expect(result.current.livesRemaining).toBe(1);
+    expect(result.current.isInteractionLocked).toBe(false);
+    expect(result.current.isOutOfLives).toBe(false);
+
+    act(() => {
+      result.current.handleNodePress(4);
     });
 
     expect(result.current.livesRemaining).toBe(0);
