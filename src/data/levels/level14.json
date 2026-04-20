@@ -1,0 +1,141 @@
+{
+  "id": "level14",
+  "number": 14,
+  "name": "Comet",
+  "grid": {
+    "width": 19,
+    "height": 19
+  },
+  "timeLimit": 22,
+  "nodes": [
+    {
+      "id": 1,
+      "position": {
+        "x": 13,
+        "y": 17
+      },
+      "neighbors": [
+        2,
+        6,
+        7
+      ]
+    },
+    {
+      "id": 2,
+      "position": {
+        "x": 17,
+        "y": 13
+      },
+      "neighbors": [
+        11
+      ]
+    },
+    {
+      "id": 3,
+      "position": {
+        "x": 13,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 4,
+      "position": {
+        "x": 17,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 5,
+      "position": {
+        "x": 1,
+        "y": 17
+      },
+      "neighbors": [
+        1,
+        6,
+        9,
+        12
+      ]
+    },
+    {
+      "id": 6,
+      "position": {
+        "x": 13,
+        "y": 13
+      },
+      "neighbors": [
+        2,
+        7,
+        8,
+        11,
+        12
+      ]
+    },
+    {
+      "id": 7,
+      "position": {
+        "x": 13,
+        "y": 9
+      },
+      "neighbors": [
+        3,
+        4,
+        10,
+        11
+      ]
+    },
+    {
+      "id": 8,
+      "position": {
+        "x": 9,
+        "y": 9
+      },
+      "neighbors": [
+        3,
+        7
+      ]
+    },
+    {
+      "id": 9,
+      "position": {
+        "x": 1,
+        "y": 1
+      },
+      "neighbors": [
+        4
+      ]
+    },
+    {
+      "id": 10,
+      "position": {
+        "x": 1,
+        "y": 5
+      },
+      "neighbors": [
+        3
+      ]
+    },
+    {
+      "id": 11,
+      "position": {
+        "x": 17,
+        "y": 5
+      },
+      "neighbors": []
+    },
+    {
+      "id": 12,
+      "position": {
+        "x": 1,
+        "y": 9
+      },
+      "neighbors": [
+        8,
+        9,
+        10
+      ]
+    }
+  ]
+}

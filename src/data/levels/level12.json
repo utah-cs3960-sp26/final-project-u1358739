@@ -1,0 +1,114 @@
+{
+  "id": "level12",
+  "number": 12,
+  "name": "Lantern",
+  "grid": {
+    "width": 19,
+    "height": 19
+  },
+  "timeLimit": "none",
+  "nodes": [
+    {
+      "id": 1,
+      "position": {
+        "x": 13,
+        "y": 9
+      },
+      "neighbors": []
+    },
+    {
+      "id": 2,
+      "position": {
+        "x": 17,
+        "y": 9
+      },
+      "neighbors": [
+        8
+      ]
+    },
+    {
+      "id": 3,
+      "position": {
+        "x": 17,
+        "y": 13
+      },
+      "neighbors": [
+        1,
+        8
+      ]
+    },
+    {
+      "id": 4,
+      "position": {
+        "x": 1,
+        "y": 5
+      },
+      "neighbors": [
+        5
+      ]
+    },
+    {
+      "id": 5,
+      "position": {
+        "x": 13,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 6,
+      "position": {
+        "x": 13,
+        "y": 13
+      },
+      "neighbors": [
+        2,
+        9
+      ]
+    },
+    {
+      "id": 7,
+      "position": {
+        "x": 17,
+        "y": 17
+      },
+      "neighbors": [
+        1,
+        6
+      ]
+    },
+    {
+      "id": 8,
+      "position": {
+        "x": 17,
+        "y": 5
+      },
+      "neighbors": []
+    },
+    {
+      "id": 9,
+      "position": {
+        "x": 13,
+        "y": 5
+      },
+      "neighbors": [
+        5,
+        8
+      ]
+    },
+    {
+      "id": 10,
+      "position": {
+        "x": 5,
+        "y": 17
+      },
+      "neighbors": [
+        2,
+        3,
+        4,
+        6,
+        7
+      ]
+    }
+  ]
+}

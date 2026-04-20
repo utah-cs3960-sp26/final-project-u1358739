@@ -1,0 +1,103 @@
+{
+  "id": "level41",
+  "number": 41,
+  "name": "Terrace",
+  "grid": {
+    "width": 19,
+    "height": 19
+  },
+  "timeLimit": 21,
+  "nodes": [
+    {
+      "id": 1,
+      "position": {
+        "x": 13,
+        "y": 5
+      },
+      "neighbors": [
+        4,
+        6
+      ]
+    },
+    {
+      "id": 2,
+      "position": {
+        "x": 5,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 3,
+      "position": {
+        "x": 17,
+        "y": 17
+      },
+      "neighbors": [
+        1,
+        8
+      ]
+    },
+    {
+      "id": 4,
+      "position": {
+        "x": 17,
+        "y": 5
+      },
+      "neighbors": [
+        6
+      ]
+    },
+    {
+      "id": 5,
+      "position": {
+        "x": 5,
+        "y": 17
+      },
+      "neighbors": [
+        2,
+        3,
+        9
+      ]
+    },
+    {
+      "id": 6,
+      "position": {
+        "x": 17,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 7,
+      "position": {
+        "x": 1,
+        "y": 17
+      },
+      "neighbors": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": 8,
+      "position": {
+        "x": 1,
+        "y": 5
+      },
+      "neighbors": [
+        2
+      ]
+    },
+    {
+      "id": 9,
+      "position": {
+        "x": 17,
+        "y": 9
+      },
+      "neighbors": [
+        4
+      ]
+    }
+  ]
+}

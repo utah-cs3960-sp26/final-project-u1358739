@@ -1,0 +1,128 @@
+{
+  "id": "level33",
+  "number": 33,
+  "name": "Sundial",
+  "grid": {
+    "width": 19,
+    "height": 19
+  },
+  "timeLimit": "none",
+  "nodes": [
+    {
+      "id": 1,
+      "position": {
+        "x": 13,
+        "y": 13
+      },
+      "neighbors": [
+        2
+      ]
+    },
+    {
+      "id": 2,
+      "position": {
+        "x": 17,
+        "y": 9
+      },
+      "neighbors": [
+        7
+      ]
+    },
+    {
+      "id": 3,
+      "position": {
+        "x": 13,
+        "y": 9
+      },
+      "neighbors": [
+        2,
+        5,
+        8
+      ]
+    },
+    {
+      "id": 4,
+      "position": {
+        "x": 5,
+        "y": 5
+      },
+      "neighbors": [
+        5
+      ]
+    },
+    {
+      "id": 5,
+      "position": {
+        "x": 5,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 6,
+      "position": {
+        "x": 1,
+        "y": 13
+      },
+      "neighbors": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": 7,
+      "position": {
+        "x": 17,
+        "y": 5
+      },
+      "neighbors": [
+        8
+      ]
+    },
+    {
+      "id": 8,
+      "position": {
+        "x": 13,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 9,
+      "position": {
+        "x": 5,
+        "y": 13
+      },
+      "neighbors": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": 10,
+      "position": {
+        "x": 13,
+        "y": 17
+      },
+      "neighbors": [
+        1,
+        2,
+        3,
+        6
+      ]
+    },
+    {
+      "id": 11,
+      "position": {
+        "x": 9,
+        "y": 17
+      },
+      "neighbors": [
+        1,
+        6,
+        9,
+        10
+      ]
+    }
+  ]
+}

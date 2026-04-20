@@ -1,0 +1,135 @@
+{
+  "id": "level59",
+  "number": 59,
+  "name": "Fountain",
+  "grid": {
+    "width": 19,
+    "height": 19
+  },
+  "timeLimit": 17,
+  "nodes": [
+    {
+      "id": 1,
+      "position": {
+        "x": 9,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 2,
+      "position": {
+        "x": 17,
+        "y": 5
+      },
+      "neighbors": [
+        1,
+        8
+      ]
+    },
+    {
+      "id": 3,
+      "position": {
+        "x": 17,
+        "y": 17
+      },
+      "neighbors": [
+        6,
+        7
+      ]
+    },
+    {
+      "id": 4,
+      "position": {
+        "x": 9,
+        "y": 9
+      },
+      "neighbors": [
+        1,
+        2,
+        5,
+        8
+      ]
+    },
+    {
+      "id": 5,
+      "position": {
+        "x": 1,
+        "y": 5
+      },
+      "neighbors": [
+        2,
+        10
+      ]
+    },
+    {
+      "id": 6,
+      "position": {
+        "x": 5,
+        "y": 9
+      },
+      "neighbors": [
+        4,
+        9
+      ]
+    },
+    {
+      "id": 7,
+      "position": {
+        "x": 13,
+        "y": 13
+      },
+      "neighbors": []
+    },
+    {
+      "id": 8,
+      "position": {
+        "x": 17,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 9,
+      "position": {
+        "x": 17,
+        "y": 9
+      },
+      "neighbors": [
+        8
+      ]
+    },
+    {
+      "id": 10,
+      "position": {
+        "x": 5,
+        "y": 5
+      },
+      "neighbors": [
+        1,
+        12
+      ]
+    },
+    {
+      "id": 11,
+      "position": {
+        "x": 5,
+        "y": 17
+      },
+      "neighbors": [
+        3,
+        4,
+        7,
+        10
+      ]
+    },
+    {
+      "id": 12,
+      "position": {
+        "x": 1,
+        "y": 1
+      },
+      "neighbors": []
+    }
+  ]
+}

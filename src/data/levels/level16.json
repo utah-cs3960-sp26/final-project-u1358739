@@ -1,0 +1,106 @@
+{
+  "id": "level16",
+  "number": 16,
+  "name": "Beacon",
+  "grid": {
+    "width": 19,
+    "height": 19
+  },
+  "timeLimit": 16,
+  "nodes": [
+    {
+      "id": 1,
+      "position": {
+        "x": 13,
+        "y": 5
+      },
+      "neighbors": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": 2,
+      "position": {
+        "x": 1,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 3,
+      "position": {
+        "x": 1,
+        "y": 5
+      },
+      "neighbors": [
+        1
+      ]
+    },
+    {
+      "id": 4,
+      "position": {
+        "x": 9,
+        "y": 17
+      },
+      "neighbors": [
+        6,
+        8,
+        9
+      ]
+    },
+    {
+      "id": 5,
+      "position": {
+        "x": 17,
+        "y": 5
+      },
+      "neighbors": []
+    },
+    {
+      "id": 6,
+      "position": {
+        "x": 17,
+        "y": 13
+      },
+      "neighbors": [
+        1,
+        5,
+        9
+      ]
+    },
+    {
+      "id": 7,
+      "position": {
+        "x": 5,
+        "y": 17
+      },
+      "neighbors": [
+        3,
+        4,
+        6
+      ]
+    },
+    {
+      "id": 8,
+      "position": {
+        "x": 9,
+        "y": 5
+      },
+      "neighbors": [
+        2
+      ]
+    },
+    {
+      "id": 9,
+      "position": {
+        "x": 5,
+        "y": 9
+      },
+      "neighbors": [
+        1,
+        3
+      ]
+    }
+  ]
+}

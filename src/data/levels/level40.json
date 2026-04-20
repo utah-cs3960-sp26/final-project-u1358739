@@ -1,0 +1,94 @@
+{
+  "id": "level40",
+  "number": 40,
+  "name": "Crescent",
+  "grid": {
+    "width": 19,
+    "height": 19
+  },
+  "timeLimit": 14,
+  "nodes": [
+    {
+      "id": 1,
+      "position": {
+        "x": 13,
+        "y": 17
+      },
+      "neighbors": [
+        2,
+        3,
+        5
+      ]
+    },
+    {
+      "id": 2,
+      "position": {
+        "x": 1,
+        "y": 13
+      },
+      "neighbors": [
+        6
+      ]
+    },
+    {
+      "id": 3,
+      "position": {
+        "x": 1,
+        "y": 5
+      },
+      "neighbors": [
+        4,
+        7,
+        8
+      ]
+    },
+    {
+      "id": 4,
+      "position": {
+        "x": 1,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 5,
+      "position": {
+        "x": 17,
+        "y": 5
+      },
+      "neighbors": [
+        8
+      ]
+    },
+    {
+      "id": 6,
+      "position": {
+        "x": 13,
+        "y": 13
+      },
+      "neighbors": [
+        4,
+        5,
+        8
+      ]
+    },
+    {
+      "id": 7,
+      "position": {
+        "x": 9,
+        "y": 5
+      },
+      "neighbors": [
+        4
+      ]
+    },
+    {
+      "id": 8,
+      "position": {
+        "x": 13,
+        "y": 1
+      },
+      "neighbors": []
+    }
+  ]
+}

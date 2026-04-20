@@ -1,0 +1,118 @@
+{
+  "id": "level32",
+  "number": 32,
+  "name": "Thicket",
+  "grid": {
+    "width": 19,
+    "height": 19
+  },
+  "timeLimit": 18,
+  "nodes": [
+    {
+      "id": 1,
+      "position": {
+        "x": 17,
+        "y": 5
+      },
+      "neighbors": [
+        2,
+        6
+      ]
+    },
+    {
+      "id": 2,
+      "position": {
+        "x": 9,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 3,
+      "position": {
+        "x": 9,
+        "y": 13
+      },
+      "neighbors": [
+        2,
+        4,
+        8
+      ]
+    },
+    {
+      "id": 4,
+      "position": {
+        "x": 1,
+        "y": 9
+      },
+      "neighbors": [
+        1,
+        2,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "id": 5,
+      "position": {
+        "x": 1,
+        "y": 13
+      },
+      "neighbors": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": 6,
+      "position": {
+        "x": 13,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 7,
+      "position": {
+        "x": 17,
+        "y": 9
+      },
+      "neighbors": [
+        1,
+        6
+      ]
+    },
+    {
+      "id": 8,
+      "position": {
+        "x": 13,
+        "y": 9
+      },
+      "neighbors": []
+    },
+    {
+      "id": 9,
+      "position": {
+        "x": 1,
+        "y": 17
+      },
+      "neighbors": [
+        3,
+        5,
+        10
+      ]
+    },
+    {
+      "id": 10,
+      "position": {
+        "x": 9,
+        "y": 17
+      },
+      "neighbors": [
+        3,
+        5
+      ]
+    }
+  ]
+}

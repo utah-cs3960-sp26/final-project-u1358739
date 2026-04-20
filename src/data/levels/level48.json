@@ -1,0 +1,124 @@
+{
+  "id": "level48",
+  "number": 48,
+  "name": "Drift",
+  "grid": {
+    "width": 19,
+    "height": 19
+  },
+  "timeLimit": "none",
+  "nodes": [
+    {
+      "id": 1,
+      "position": {
+        "x": 1,
+        "y": 5
+      },
+      "neighbors": [
+        8,
+        11
+      ]
+    },
+    {
+      "id": 2,
+      "position": {
+        "x": 17,
+        "y": 17
+      },
+      "neighbors": [
+        3,
+        7
+      ]
+    },
+    {
+      "id": 3,
+      "position": {
+        "x": 17,
+        "y": 13
+      },
+      "neighbors": [
+        4,
+        7
+      ]
+    },
+    {
+      "id": 4,
+      "position": {
+        "x": 1,
+        "y": 9
+      },
+      "neighbors": [
+        8,
+        9
+      ]
+    },
+    {
+      "id": 5,
+      "position": {
+        "x": 13,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 6,
+      "position": {
+        "x": 5,
+        "y": 1
+      },
+      "neighbors": [
+        5
+      ]
+    },
+    {
+      "id": 7,
+      "position": {
+        "x": 17,
+        "y": 5
+      },
+      "neighbors": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": 8,
+      "position": {
+        "x": 1,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 9,
+      "position": {
+        "x": 9,
+        "y": 9
+      },
+      "neighbors": [
+        1,
+        5,
+        7,
+        10
+      ]
+    },
+    {
+      "id": 10,
+      "position": {
+        "x": 5,
+        "y": 5
+      },
+      "neighbors": [
+        6
+      ]
+    },
+    {
+      "id": 11,
+      "position": {
+        "x": 9,
+        "y": 5
+      },
+      "neighbors": []
+    }
+  ]
+}

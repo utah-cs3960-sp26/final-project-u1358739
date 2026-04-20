@@ -1,0 +1,123 @@
+{
+  "id": "level53",
+  "number": 53,
+  "name": "Bastion",
+  "grid": {
+    "width": 19,
+    "height": 19
+  },
+  "timeLimit": 15,
+  "nodes": [
+    {
+      "id": 1,
+      "position": {
+        "x": 9,
+        "y": 9
+      },
+      "neighbors": [
+        4,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "id": 2,
+      "position": {
+        "x": 1,
+        "y": 9
+      },
+      "neighbors": [
+        1,
+        7
+      ]
+    },
+    {
+      "id": 3,
+      "position": {
+        "x": 1,
+        "y": 17
+      },
+      "neighbors": [
+        2,
+        6,
+        9
+      ]
+    },
+    {
+      "id": 4,
+      "position": {
+        "x": 13,
+        "y": 5
+      },
+      "neighbors": [
+        5,
+        10
+      ]
+    },
+    {
+      "id": 5,
+      "position": {
+        "x": 9,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 6,
+      "position": {
+        "x": 5,
+        "y": 13
+      },
+      "neighbors": [
+        1,
+        8
+      ]
+    },
+    {
+      "id": 7,
+      "position": {
+        "x": 1,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 8,
+      "position": {
+        "x": 13,
+        "y": 9
+      },
+      "neighbors": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": 9,
+      "position": {
+        "x": 17,
+        "y": 17
+      },
+      "neighbors": [
+        11
+      ]
+    },
+    {
+      "id": 10,
+      "position": {
+        "x": 13,
+        "y": 1
+      },
+      "neighbors": []
+    },
+    {
+      "id": 11,
+      "position": {
+        "x": 17,
+        "y": 13
+      },
+      "neighbors": []
+    }
+  ]
+}
