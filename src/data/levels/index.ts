@@ -8,8 +8,6 @@ import levelFive from './level5.json';
 import levelSix from './level6.json';
 import levelSeven from './level7.json';
 import levelEight from './level8.json';
-// import levelNine from './level9.json';
-// import levelTen from './level10.json';
 
 export const levelDefinitions: LevelDefinition[] = [levelOne, levelTwo, levelThree, levelFour, levelFive, levelSix, levelSeven, levelEight].sort(
   (left, right) => left.number - right.number,
