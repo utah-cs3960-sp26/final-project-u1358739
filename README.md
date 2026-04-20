@@ -9,3 +9,8 @@ So far I have the basic game working with a few levels that were poorly generate
 
 I didn't use an agentic loop this week.  I was trying to fix bugs for the majority of the week and I didn't have a way for the AI to tell if it got the right answer so I didn't have it loop.
 The bug I was dealing with was that the app would crash a lot of times when I would click on a node on the graph.  Normally when you click on a node, it should remove the node from the graph.  At first, to fix the bug I was just asking amp what the bug was and letting it try to fix it itself and that wouldn't work.  Finaly I explained the workflow of what should happen when a node is clicked.  I am working with an MVVM architecture and I told it which parts of the work should go in which modules and when I did this, the bug was finally fixed.  After the fix I added tests in place to make sure that it didn't happen again.
+
+Week 14
+For my project I have made a mobile app game that simply has a player do topological sort on a graph datastructure.  There is not much more to it than that.  Each level is a graph and for each level it shows a visual representation of that graph.  If the user presses a node that has no arrows pointing to it then the node disappears.  If the user presses a node that does have arrows pointing to it then they lose a life.
+
+Here is the video:  youtube.com/vibefinal
