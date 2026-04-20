@@ -13,4 +13,4 @@ The bug I was dealing with was that the app would crash a lot of times when I wo
 Week 14
 For my project I have made a mobile app game that simply has a player do topological sort on a graph datastructure.  There is not much more to it than that.  Each level is a graph and for each level it shows a visual representation of that graph.  If the user presses a node that has no arrows pointing to it then the node disappears.  If the user presses a node that does have arrows pointing to it then they lose a life.
 
-Here is the video:
+Here is the video: https://youtu.be/OJlynNKyWt4 
