@@ -1,0 +1,20 @@
+
+> webescape@1.0.0 start
+> expo start --host lan --port 8081
+
+Starting project at C:\Users\umyea\repos\webEscape
+Starting Metro Bundler
+Waiting on http://localhost:8081
+Logs for your project will appear below.
+Web node_modules\expo\AppEntry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 678ms node_modules\expo\AppEntry.js (362 modules)
+ LOG  [web] Logs will appear in the browser console
+Android node_modules\expo\AppEntry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Android Bundled 1854ms node_modules\expo\AppEntry.js (898 modules)
+Android node_modules\expo\AppEntry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Android Bundled 5788ms node_modules\expo\AppEntry.js (1 module)
+Android node_modules\expo\AppEntry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Android node_modules\expo\AppEntry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Android Bundled 91ms node_modules\expo\AppEntry.js (1 module)
+Android node_modules\expo\AppEntry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Android Bundled 79ms node_modules\expo\AppEntry.js (1 module)

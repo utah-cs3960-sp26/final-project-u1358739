@@ -1,0 +1,37 @@
+Starting project at C:\Users\umyea\repos\webEscape
+Starting Metro Bundler
+Waiting on http://localhost:8083
+Logs for your project will appear below.
+Web node_modules\expo\AppEntry.js ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 78.8% (284/320)
+Web Bundled 3562ms node_modules\expo\AppEntry.js (365 modules)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules\expo\AppEntry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 21ms node_modules\expo\AppEntry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules\expo\AppEntry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 41ms node_modules\expo\AppEntry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules\expo\AppEntry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 21ms node_modules\expo\AppEntry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules\expo\AppEntry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 31ms node_modules\expo\AppEntry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules\expo\AppEntry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 30ms node_modules\expo\AppEntry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules\expo\AppEntry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 20ms node_modules\expo\AppEntry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules\expo\AppEntry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 30ms node_modules\expo\AppEntry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules\expo\AppEntry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 21ms node_modules\expo\AppEntry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules\expo\AppEntry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 21ms node_modules\expo\AppEntry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules\expo\AppEntry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 23ms node_modules\expo\AppEntry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
